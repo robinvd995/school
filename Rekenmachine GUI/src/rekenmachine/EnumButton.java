@@ -2,7 +2,7 @@ package rekenmachine;
 
 public enum EnumButton {
 
-	CLEAR(3, 0, "AC", "clear", "C", "back", new int[]{8}, new boolean[]{true}),
+	CLEAR(3, 0, "AC", "clear", "C", "back", new int[]{8, 8}, new boolean[]{true, false}),
 	NMB9(2, 1, "9", "nmb9", new int[]{105, 57}),
 	NMB8(1, 1, "8", "nmb8", new int[]{104, 56}),
 	NBM7(0, 1, "7", "nmb7", new int[]{103, 55}),
@@ -14,13 +14,13 @@ public enum EnumButton {
 	NMB1(0, 3, "1", "nmb1", new int[]{97, 49}),
 	NMB0(0, 4, "0", "nmb0", new int[]{96, 48}),
 	DECIMAL(1, 4, ".", "dec", new int[]{110, 46, 44}),
-	EQUALS(2, 4, "=", "equals", null),
-	DEVIDE(3, 1, "/", "ope/", "sin", "opesin", null, null),
-	MULTIPLY(3, 2, "x", "ope*", "cos", "opecos", null, null),
-	SUBTRACT(3, 3, "-", "ope-", "tan", "opetan", null, null),
-	ADD(3, 4, "+", "ope+", "\u03c0", "opePI", null, null),
-	BRACKET_OPEN(1, 0, "(", "ope(", "^", "ope^", new int[]{102}, new boolean[]{true}),
-	BRACKET_CLOSE(2, 0, ")", "ope)", "SQR", "opeSQR", null, null),
+	EQUALS(2, 4, "=", "equals", new int[]{10}),
+	DEVIDE(3, 1, "/", "ope/", "sin", "opesin", new int[]{111}, new boolean[]{false}),
+	MULTIPLY(3, 2, "x", "ope*", "cos", "opecos", new int[]{106}, new boolean[]{false}),
+	SUBTRACT(3, 3, "-", "ope-", "tan", "opetan", new int[]{109}, new boolean[]{false}),
+	ADD(3, 4, "+", "ope+", "\u03c0", "opePI", new int[]{107}, new boolean[]{false}),
+	BRACKET_OPEN(1, 0, "(", "ope(", "^", "ope^", new int[]{91, 130}, new boolean[]{false, true}),
+	BRACKET_CLOSE(2, 0, ")", "ope)", "SQR", "opeSQR", new int[]{93}, new boolean[]{false}),
 	LAST_AWNSER(0, 0, "ANS", "ans", null);
 	
 	private final int row;
