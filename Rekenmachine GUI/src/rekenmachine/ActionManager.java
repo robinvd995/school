@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.ibm.icu.util.BytesTrie.Iterator;
-
 public class ActionManager implements ActionListener, KeyListener{
 
 	private static final List<HashMap<Integer,EnumButton>> hotkeyMap = new ArrayList<HashMap<Integer,EnumButton>>();
@@ -50,13 +48,13 @@ public class ActionManager implements ActionListener, KeyListener{
 		iterateThroughMap(hotkeyMap.get(1));*/
 	}
 	
-	private void iterateThroughMap(HashMap<Integer,EnumButton> map){
+	/*private void printMap(HashMap<Integer,EnumButton> map){
 		java.util.Iterator<Entry<Integer, EnumButton>> it = map.entrySet().iterator();
 		while(it.hasNext()){
 			Entry<Integer, EnumButton> entry = it.next();
 			System.out.println(entry.getKey() + ", " + entry.getValue());
 		}
-	}
+	}*/
 
 	private void addHotkeyToMap(HashMap<Integer,EnumButton> map, int key, EnumButton button){
 		if(map.containsKey(key)){
@@ -104,7 +102,6 @@ public class ActionManager implements ActionListener, KeyListener{
 	}
 
 	private HashMap<Integer,EnumButton> getHotkeyMap(boolean shiftdown){
-		System.out.println("returned " + (shiftdown ? "shiftmap" : "normalmap"));
 		return hotkeyMap.get(shiftdown ? 1 : 0);
 	}
 	

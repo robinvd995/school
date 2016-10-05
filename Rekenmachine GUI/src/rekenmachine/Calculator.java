@@ -114,7 +114,31 @@ public class Calculator {
 		if(input.isEmpty())
 			return;
 
-		boolean removedCharacter = false;
+		boolean removed = false;
+		
+		if(input.length() >= 3){
+			String s = input.substring(input.length() - 3, input.length());
+			if(s.equals("sin") || s.equals("cos") || s.equals("tan") || s.equals("SQR") || s.equals(LAST_AWNSER_KEY)){
+				input = input.substring(0, input.length() - 3);
+				removed = true;
+			}
+		}
+		
+		if(!removed && input.length() >= 2){
+			String s = input.substring(input.length() - 2, input.length());
+			if(s.equals("PI")){
+				input = input.substring(0, input.length() - 2);
+				removed = true;
+			}
+		}
+		
+		if(!removed){
+			input = input.substring(0, input.length() - 1);
+		}
+		
+		updateLabel();
+		
+		/*boolean removedCharacter = false;
 		boolean first = true;
 		int curChar = input.length() - 1;
 		while(true){
@@ -134,7 +158,9 @@ public class Calculator {
 			first = false;
 		}
 		input = input.substring(0, curChar + 1);
-		updateLabel();
+		updateLabel();*/
+		
+		
 
 	}
 
