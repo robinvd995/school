@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.ibm.icu.util.BytesTrie.Iterator;
 
@@ -35,16 +34,28 @@ public class ActionManager implements ActionListener, KeyListener{
 
 			int[] hotkeys = button.getHotkeys();
 			for(int i = 0; i < hotkeys.length; i++){
-				addHotkeyToMap(button.isShiftHotkey(i) ? shiftMap : normalMap, hotkeys[i], button);
+				boolean useShiftMap = button.isShiftHotkey(i);
+				int hk = hotkeys[i];
+				//System.out.println("Hotkey " + hk + " uses shift map is " + useShiftMap + " for button " + button);
+				addHotkeyToMap(useShiftMap ? shiftMap : normalMap, hk, button);
 			}
 		}
 		
 		hotkeyMap.add(0, normalMap);
 		hotkeyMap.add(1, shiftMap);
+		
+		/*System.out.println("Printing normalMap");
+		iterateThroughMap(hotkeyMap.get(0));
+		System.out.println("Printing shiftMap");
+		iterateThroughMap(hotkeyMap.get(1));*/
 	}
 	
 	private void iterateThroughMap(HashMap<Integer,EnumButton> map){
-		
+		java.util.Iterator<Entry<Integer, EnumButton>> it = map.entrySet().iterator();
+		while(it.hasNext()){
+			Entry<Integer, EnumButton> entry = it.next();
+			System.out.println(entry.getKey() + ", " + entry.getValue());
+		}
 	}
 
 	private void addHotkeyToMap(HashMap<Integer,EnumButton> map, int key, EnumButton button){
@@ -61,6 +72,7 @@ public class ActionManager implements ActionListener, KeyListener{
 	}
 
 	private void executeCommand(final String s){
+		
 		if(s.startsWith("nmb")){
 			String nmbString = s.substring(3);
 			int number = Integer.valueOf(nmbString);
@@ -91,8 +103,9 @@ public class ActionManager implements ActionListener, KeyListener{
 		}
 	}
 
-	private HashMap<Integer,EnumButton> getHotkeyMap(){
-		return hotkeyMap.get(isShiftDown ? 1 : 0);
+	private HashMap<Integer,EnumButton> getHotkeyMap(boolean shiftdown){
+		System.out.println("returned " + (shiftdown ? "shiftmap" : "normalmap"));
+		return hotkeyMap.get(shiftdown ? 1 : 0);
 	}
 	
 	@Override
@@ -103,9 +116,11 @@ public class ActionManager implements ActionListener, KeyListener{
 			calc.onShiftPressed();
 		}
 		
-		HashMap<Integer,EnumButton> map = getHotkeyMap();
+		HashMap<Integer,EnumButton> map = getHotkeyMap(isShiftDown);
 		EnumButton button = map.get(evt.getKeyCode());
-		if(button != null) executeCommand(button.getActionCommand(isShiftDown));
+		if(button != null){
+			executeCommand(button.getActionCommand(isShiftDown));
+		}
 		
 
 		//EnumButton button = hotkeyMap.get(evt.getKeyCode());

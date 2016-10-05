@@ -110,6 +110,7 @@ public class Calculator {
 	}
 
 	public void removeCharacter(){
+		
 		if(input.isEmpty())
 			return;
 
