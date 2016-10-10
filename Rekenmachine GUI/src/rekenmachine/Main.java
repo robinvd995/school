@@ -37,6 +37,7 @@ public class Main {
 		initialize();
 	}
 
+	//Initializing Calculator
 	private void initialize() {
 		
 		Calculator calculator = new Calculator(this);
