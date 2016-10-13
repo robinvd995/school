@@ -71,7 +71,8 @@ public class Calculator {
 
 		try {
 			double awnser = eval(getFormattedInput());
-			if(awnser < 0.00000000000001D)
+			System.out.println(awnser);
+			if(awnser < 0.00000000000001D && awnser > -0.00000000000001D)
 				awnser = 0.0D;
 			setLastAwnser(awnser);
 			s = Double.toString(awnser);
@@ -223,12 +224,32 @@ public class Calculator {
 			}
 
 			double parseFactor() {
-				if (eat('s')) return Math.sin(parseFactor());
-				if (eat('c')) return Math.cos(parseFactor());
-				if (eat('t')) return Math.tan(parseFactor());
-				if (eat('r')) return Math.sqrt(parseFactor());
-				if (eat('+')) return parseFactor();
-				if (eat('-')) return -parseFactor();
+				if (eat('s')){
+					double s = Math.sin(parseFactor());
+					//System.out.println("Parsed sin");
+					return s;
+				}
+				if (eat('c')){
+					double s = Math.cos(parseFactor());
+					//System.out.println("Parsed cos");
+					return s;
+				}
+				if (eat('t')){
+					//System.out.println("Parsed tan");
+					return Math.tan(parseFactor());
+				}
+				if (eat('r')){
+					//System.out.println("Parsed sqr");
+					return Math.sqrt(parseFactor());
+				}
+				if (eat('+')){
+					//System.out.println("Parsed +");
+					return parseFactor();
+				}
+				if (eat('-')){
+					//System.out.println("Parsed -");
+					return -parseFactor();
+				}
 
 				double x = 0;
 				int startPos = this.pos;

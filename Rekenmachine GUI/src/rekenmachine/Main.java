@@ -8,6 +8,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 
 public class Main {
@@ -16,7 +19,8 @@ public class Main {
 	public static int buttonHeight = 80;
 	
 	private JFrame frame;
-
+	private JMenuBar menuBar;
+	
 	private JButton[] buttonArray;
 	private JLabel label;
 	
@@ -26,6 +30,7 @@ public class Main {
 				try {
 					Main window = new Main();
 					window.frame.setVisible(true);
+					showPopup();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,10 +38,29 @@ public class Main {
 		});
 	}
 
+	
+	private static void showPopup(){
+		JFrame popup = new JFrame();
+		popup.setBounds(100, 100, 300, 100);
+		JLabel label = new JLabel("Hold shift for extra functions!");
+		label.setHorizontalAlignment(JLabel.CENTER);
+		popup.add(label);
+		popup.setVisible(true);
+		popup.setLocation(125, 350);
+	}
+	
 	public Main() {
 		initialize();
 	}
 
+	private void initMenu(){
+		menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		menuBar.add(menu);
+		menuBar.setVisible(true);
+		frame.add(menuBar);
+	}
+	
 	//Initializing Calculator
 	private void initialize() {
 		
@@ -82,12 +106,22 @@ public class Main {
 		}
 		
 		setAnsButtonTextColor(Color.red);
+		
+		initMenu();
 	}
-	
+	/**
+	 * Sets the text on the label in the GUI
+	 * 
+	 * @param s the new string you want to set the text to
+	 */
 	public void setLabelText(String s){
 		label.setText(s);
 	}
 	
+	/**
+	 * Sets the color of the ans button text
+	 * @param color
+	 */
 	public void setAnsButtonTextColor(Color color){
 		buttonArray[EnumButton.LAST_AWNSER.ordinal()].setForeground(color);
 	}

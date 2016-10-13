@@ -2,7 +2,7 @@ package rekenmachine;
 
 public enum EnumButton {
 
-	CLEAR(3, 0, "AC", "clear", "C", "back", new int[]{8, 8}, new boolean[]{true, false}),
+	CLEAR(3, 0, "C", "back", "AC", "clear", new int[]{8, 8}, new boolean[]{true, false}),
 	NMB9(2, 1, "9", "nmb9", new int[]{105, 57}),
 	NMB8(1, 1, "8", "nmb8", new int[]{104, 56}),
 	NBM7(0, 1, "7", "nmb7", new int[]{103, 55}),
