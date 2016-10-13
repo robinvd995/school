@@ -1,18 +1,16 @@
 package visualGraph;
 
-import java.awt.Graphics;
+public class GraphPanel{
 
-import javax.swing.JPanel;
-
-public class GraphPanel extends JPanel{
-
-	public GraphPanel(){
+	/*private VisualGraph vg;
+	private Graph graph;
+	
+	public GraphPanel(VisualGraph visualgraph){
 		super();
+		vg = visualgraph;
 	}
 	
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
+	public void setGraph(Graph graph){
 		
-		System.out.println("Printing");
-	}
+	}*/
 }
