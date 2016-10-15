@@ -69,8 +69,8 @@ public class MenuManager implements ActionListener, ItemListener{
 		menuOptions = new JMenu("Options");
 		menuBar.add(menuOptions);
 		
-		itemOptions = new JMenuItem("Options");
-		itemOptions.setActionCommand(EnumAction.OPTIONS.getActionCommand());
+		itemOptions = new JMenuItem("Graph Bounds");
+		itemOptions.setActionCommand(EnumAction.BOUNDS.getActionCommand());
 		itemOptions.addActionListener(this);
 		
 		menuOptions.add(itemOptions);

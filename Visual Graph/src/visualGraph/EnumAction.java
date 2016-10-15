@@ -2,7 +2,7 @@ package visualGraph;
 
 public enum EnumAction {
 
-	IDLE,NEW,SAVE,OPEN,EXIT,OPTIONS;
+	IDLE,NEW,SAVE,OPEN,EXIT,BOUNDS;
 	
 	public String getActionCommand(){
 		return name().toLowerCase();

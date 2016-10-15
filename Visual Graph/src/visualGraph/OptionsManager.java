@@ -11,17 +11,18 @@ import javax.swing.JTextField;
 
 public class OptionsManager implements ActionListener{
 
-	private static final int OPTIONS_WIDTH = 200;
-	private static final int OPTIONS_HEIGHT = 225;
+	private static final String[] LABEL_TEXT = {
+			"min X", "max X", "min Y", "max Y", "step X", "step Y"
+	};
+	
+	private static final int OPTIONS_WIDTH = 188;
+	private static final int OPTIONS_HEIGHT = 256;
 	
 	private VisualGraph vg;
 	
 	private JDialog window;
 	
-	private JTextField text;
-	private JTextField text1;
-	private JTextField text2;
-	private JTextField text3;
+	private JTextField[] textField = new JTextField[6];
 	
 	public OptionsManager(VisualGraph visualGraph){
 		vg = visualGraph;
@@ -31,6 +32,7 @@ public class OptionsManager implements ActionListener{
 		window = new JDialog(vg.getFrame(), true);
 		window.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		window.setTitle("Options");
+		window.setResizable(false);
 		window.setLayout(null);
 		Rectangle rect = vg.getFrame().getBounds();
 		int posX = (int)(rect.x + (rect.getWidth() - OPTIONS_WIDTH) / 2);
@@ -38,7 +40,21 @@ public class OptionsManager implements ActionListener{
 		window.setBounds(posX, posY, OPTIONS_WIDTH, OPTIONS_HEIGHT);
 		
 		//Stuff
-		JLabel xMin = new JLabel("Min X");
+		
+		for(int i = 0; i < textField.length; i++){
+			JLabel label = new JLabel(LABEL_TEXT[i]);
+			label.setLocation(20, 20 + 20 * i);
+			label.setSize(60, 20);
+			window.add(label);
+			
+			textField[i] = new JTextField(Double.toString(getGraphValue(i)));
+			textField[i].setLocation(80, 20 + 20 * i);
+			textField[i].setSize(80, 20);
+			window.add(textField[i]);
+			
+		}
+		
+		/*JLabel xMin = new JLabel("Min X");
 		xMin.setLocation(20, 20);
 		xMin.setSize(60, 20);
 		window.add(xMin);
@@ -76,51 +92,75 @@ public class OptionsManager implements ActionListener{
 		text3 = new JTextField("");
 		text3.setLocation(80, 80);
 		text3.setSize(60, 20);
-		window.add(text3);
+		window.add(text3);*/
 		
 		JButton apply = new JButton("Apply");
-		apply.setLocation(20, 120);
-		apply.setSize(80, 20);
+		apply.setLocation(20, 40 + textField.length * 20);
+		apply.setSize(140, 20);
 		apply.addActionListener(this);
 		apply.setActionCommand("apply");
 		window.add(apply);
 		
 		JButton cancel = new JButton("Cancel");
-		cancel.setLocation(20, 140);
-		cancel.setSize(80, 20);
+		cancel.setLocation(20, 62 + textField.length * 20);
+		cancel.setSize(140, 20);
 		cancel.addActionListener(this);
 		cancel.setActionCommand("cancel");
 		window.add(cancel);
 	}
 	
 	public void openOptionsWindow(){
+		for(int i = 0; i < textField.length; i++){
+			textField[i].setText(Double.toString(getGraphValue(i)));
+		}
 		window.setVisible(true);
 	}
 	
 	public void closeOptionsWindow(){
 		window.setVisible(false);
 	}
+	
+	private double getGraphValue(int i){
+		switch(i){
+		default: return 0;
+		case 0: return vg.getGraphMinX();
+		case 1: return vg.getGraphMaxX();
+		case 2: return vg.getGraphMinY();
+		case 3: return vg.getGraphMaxY();
+		case 4: return vg.getGraphStepX();
+		case 5: return vg.getGraphStepY();
+		}
+	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
-		if(e.getActionCommand().equals("cancel")){
+	public void actionPerformed(ActionEvent evt) {
+		//System.out.println(evt.getActionCommand());
+		if(evt.getActionCommand().equals("cancel")){
 			closeOptionsWindow();	
 		}
-		if(e.getActionCommand().equals("apply")){
-			//
-			String s = text.getText();
-			int a = Integer.parseInt(s);
-			System.out.println(a);
-			s = text1.getText();
-			int b = Integer.parseInt(s);
-			System.out.println(b);
-			s = text2.getText();
-			int c = Integer.parseInt(s);
-			System.out.println(c);
-			s = text3.getText();
-			int d = Integer.parseInt(s);
-			System.out.println(d);
+		else if(evt.getActionCommand().equals("apply")){
+			boolean error = false;
+			double[] values = new double[textField.length];
+			for(int i = 0; i < textField.length; i++){
+				try{
+					String s = vg.getVariableManager().replaceVariables(textField[i].getText());
+					values[i] = Double.parseDouble(s);
+				}
+				catch(NumberFormatException e){
+					e.printStackTrace();
+					vg.log("Illegal entry found at '" + LABEL_TEXT[i] + "'!");
+					error = true;
+					break;
+				}
+			}
+			
+			if(error){
+				vg.log("Could not update the graph bounds!");
+			}
+			else{
+				vg.setGraphBounds(values[0], values[1], values[2], values[3], values[4], values[5]);
+			}
+			
 			closeOptionsWindow();
 		}
 	}

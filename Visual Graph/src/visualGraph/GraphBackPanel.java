@@ -49,26 +49,25 @@ public class GraphBackPanel extends JPanel{
 		}
 
 		int i;
-		int stepAmount, numberOfMinSteps;
+		double stepAmount;
+		int numberOfMinSteps;
 		double stepSize;
 
 		graphics.setColor(Color.LIGHT_GRAY);
-		stepAmount = (int) (Math.abs(vg.getGraphHeight()) / vg.getGraphStepY());
-		stepSize = 1.0D / (double)stepAmount;
+		stepAmount = vg.getGraphHeight() / vg.getGraphStepY();
+		stepSize = 1.0D / stepAmount;
 		numberOfMinSteps = (vg.getGraphMinY() < 0.0D) ? (int) (Math.abs(vg.getGraphMinY()) / vg.getGraphStepY()) : 0;
-		System.out.println(stepAmount);
 		for(i = -numberOfMinSteps; i < stepAmount; i++){
-			double stepY = y + stepSize * i;
+			double stepY = y + (double)stepSize * (double)i;
 			Line2D line = createLine(0.0D, stepY, 1.0D, stepY);
 			graphics.draw(line);
 		}
 		
-		stepAmount = (int) (Math.abs(vg.getGraphWidth()) / vg.getGraphStepX());
+		stepAmount = vg.getGraphWidth() / vg.getGraphStepX();
 		stepSize = 1.0D / (double)stepAmount;
 		numberOfMinSteps = (vg.getGraphMinX() < 0.0D) ? (int) (Math.abs(vg.getGraphMinX()) / vg.getGraphStepX()) : 0;
-		System.out.println(stepAmount);
 		for(i = -numberOfMinSteps; i < stepAmount; i++){
-			double stepX = x + stepSize * i;
+			double stepX = x + (double)stepSize * i;
 			Line2D line = createLine(stepX, 0.0D, stepX, 1.0D);
 			graphics.draw(line);
 		}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VisualGraph>
+  <Graph id="0">
+    <Formula>sin(x)</Formula>
+    <Name>Blue DNA</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>3</Width>
+    <ColorR>0</ColorR>
+    <ColorG>124</ColorG>
+    <ColorB>255</ColorB>
+  </Graph>
+  <Graph id="1">
+    <Formula>-sin(x)</Formula>
+    <Name>Orange DNA</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>3</Width>
+    <ColorR>255</ColorR>
+    <ColorG>128</ColorG>
+    <ColorB>0</ColorB>
+  </Graph>
+  <Graph id="2">
+    <Formula/>
+    <Name>y2</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>1</Width>
+    <ColorR>0</ColorR>
+    <ColorG>255</ColorG>
+    <ColorB>0</ColorB>
+  </Graph>
+  <Graph id="3">
+    <Formula/>
+    <Name>y3</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>1</Width>
+    <ColorR>255</ColorR>
+    <ColorG>0</ColorG>
+    <ColorB>255</ColorB>
+  </Graph>
+  <Graph id="4">
+    <Formula/>
+    <Name>y4</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>1</Width>
+    <ColorR>255</ColorR>
+    <ColorG>255</ColorG>
+    <ColorB>0</ColorB>
+  </Graph>
+  <Graph id="5">
+    <Formula/>
+    <Name>y5</Name>
+    <Accuracy>0.5</Accuracy>
+    <Width>1</Width>
+    <ColorR>0</ColorR>
+    <ColorG>255</ColorG>
+    <ColorB>255</ColorB>
+  </Graph>
+</VisualGraph>
