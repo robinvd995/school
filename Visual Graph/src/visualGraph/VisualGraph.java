@@ -82,7 +82,7 @@ public class VisualGraph implements Runnable{
 	private JTextArea logArea;
 
 	private GraphFunctionPanel graphFunctionPanel;
-	
+
 	private JLabel[] graphNameLabels;
 
 	private GraphPanel[] graphPanels;
@@ -94,7 +94,7 @@ public class VisualGraph implements Runnable{
 	private Graph[] graphs;
 
 	private final GraphBounds graphBounds = new GraphBounds();
-	
+
 	private int currentFunctionDrawn = -1;
 
 	public VisualGraph(){
@@ -112,22 +112,27 @@ public class VisualGraph implements Runnable{
 		init();
 		log("Welcome to Visual Graph v" + MAIN_VERSION + "!");
 	}
-	
+
 	private void setIcon(){
-		URL icon64URL = getClass().getResource("icon64x64.png");
-		URL icon48URL = getClass().getResource("icon48x48.png");
-		URL icon32URL = getClass().getResource("icon32x32.png");
-		URL icon16URL = getClass().getResource("icon16x16.png");
-		ImageIcon icon64 = new ImageIcon(icon64URL);
-		ImageIcon icon48 = new ImageIcon(icon48URL);
-		ImageIcon icon32 = new ImageIcon(icon32URL);
-		ImageIcon icon16 = new ImageIcon(icon16URL);
-		List<Image> iconList = new ArrayList<Image>();
-		iconList.add(icon64.getImage());
-		iconList.add(icon48.getImage());
-		iconList.add(icon32.getImage());
-		iconList.add(icon16.getImage());
-		frame.setIconImages(iconList);
+		try{
+			URL icon64URL = getClass().getResource("icon64x64.png");
+			URL icon48URL = getClass().getResource("icon48x48.png");
+			URL icon32URL = getClass().getResource("icon32x32.png");
+			URL icon16URL = getClass().getResource("icon16x16.png");
+			ImageIcon icon64 = new ImageIcon(icon64URL);
+			ImageIcon icon48 = new ImageIcon(icon48URL);
+			ImageIcon icon32 = new ImageIcon(icon32URL);
+			ImageIcon icon16 = new ImageIcon(icon16URL);
+			List<Image> iconList = new ArrayList<Image>();
+			iconList.add(icon64.getImage());
+			iconList.add(icon48.getImage());
+			iconList.add(icon32.getImage());
+			iconList.add(icon16.getImage());
+			frame.setIconImages(iconList);
+		}
+		catch(Exception e){
+			System.out.println("Error loading icons!");
+		}
 	}
 
 	private void init(){
@@ -147,7 +152,7 @@ public class VisualGraph implements Runnable{
 		frame.getContentPane().setLayout(null);
 
 		setIcon();
-		
+
 		optionsManager.initOptionsWindow();
 
 		menuManager.addToFrame(frame);
@@ -193,7 +198,7 @@ public class VisualGraph implements Runnable{
 		graphFunctionPanel.setVisible(true);
 		graphFunctionPanel.setOpaque(false);
 		graphBackPanel.add(graphFunctionPanel);
-		
+
 		for(int i = 0; i < MAX_GRAPHS; i++){
 
 			graphs[i] = new Graph(STANDARD_GRAPH_NAME + i, STANDARD_GRAPH_COLORS[i], STANDARD_GRAPH_ACCURACY);
@@ -261,7 +266,7 @@ public class VisualGraph implements Runnable{
 
 		graphSettingsManager.initSettingsWindow();
 		functionManager.initFunctionWindow();
-		
+
 		JLabel logLabel = new JLabel("Log");
 		logLabel.setLocation(4, 608);
 		logLabel.setSize(new Dimension(140, 21));
@@ -334,7 +339,7 @@ public class VisualGraph implements Runnable{
 		String[] options = {"New", "Cancel"};
 		if(showOptionPane("New", "Are you sure you want to start a new Graph?", options) == 0){
 			graphBounds.setDefault();
-			
+
 			for(int i = 0; i < MAX_GRAPHS; i++){
 				setGraphName(i, STANDARD_GRAPH_NAME + i);
 				setGraphFormula(i, "", false);
@@ -343,7 +348,7 @@ public class VisualGraph implements Runnable{
 				graphs[i].setColor(STANDARD_GRAPH_COLORS[i]);
 				graphs[i].setLineWidth(1);
 			}
-			
+
 			graphBackPanel.updateUI();
 		}
 
@@ -494,14 +499,14 @@ public class VisualGraph implements Runnable{
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = dbf.newDocumentBuilder();
 			Document doc = builder.parse(file);
-			
+
 			doc.getDocumentElement().normalize();
-			
+
 			NodeList graphList = doc.getElementsByTagName("Graph");
-			
+
 			for(int i = 0; i < graphList.getLength(); i++){
 				Node node = graphList.item(i);
-				
+
 				if(node.getNodeType() == Node.ELEMENT_NODE){
 					Element element = (Element) node;
 					int graphID = Integer.parseInt(element.getAttribute("id"));
@@ -520,7 +525,7 @@ public class VisualGraph implements Runnable{
 					setGraphFormula(graphID, formula, false);
 				}
 			}
-			
+
 			Element boundsNode = (Element) doc.getElementsByTagName("Bounds").item(0);
 			double minX = Double.parseDouble(boundsNode.getElementsByTagName("minX").item(0).getTextContent());
 			double maxX = Double.parseDouble(boundsNode.getElementsByTagName("maxX").item(0).getTextContent());
@@ -528,9 +533,9 @@ public class VisualGraph implements Runnable{
 			double maxY = Double.parseDouble(boundsNode.getElementsByTagName("maxY").item(0).getTextContent());
 			double stepX = Double.parseDouble(boundsNode.getElementsByTagName("stepX").item(0).getTextContent());
 			double stepY = Double.parseDouble(boundsNode.getElementsByTagName("stepY").item(0).getTextContent());
-			
+
 			setGraphBounds(minX, maxX, minY, maxY, stepX, stepY);
-			
+
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -541,10 +546,10 @@ public class VisualGraph implements Runnable{
 	}
 
 	public void writeXML(File file){
-		
+
 		if(!file.exists())
 			file = new File(file.getAbsolutePath() + ".grph");
-		
+
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		try {
@@ -556,7 +561,7 @@ public class VisualGraph implements Runnable{
 			for(int i = 0; i < MAX_GRAPHS; i++){
 				mainRootElement.appendChild(getGraphNode(doc, i));
 			}
-			
+
 			mainRootElement.appendChild(getBoundsNode(doc));
 
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -589,7 +594,7 @@ public class VisualGraph implements Runnable{
 		graphElement.appendChild(getElement(doc, "ColorB", Integer.toString(graphs[graph].getColor().getBlue())));
 		return graphElement;
 	}
-	
+
 	private Node getBoundsNode(Document doc){
 		Element boundsElement = doc.createElement("Bounds");
 		boundsElement.appendChild(getElement(doc, "minX", Double.toString(graphBounds.getMinX())));
@@ -606,33 +611,33 @@ public class VisualGraph implements Runnable{
 		node.appendChild(doc.createTextNode(value));
 		return node;
 	}
-	
+
 	public void openFunctionWindow(int graph){
 		functionManager.openFunctionWindow(graph);
 	}
-	
+
 	public double calculateGraphPoint(int graph, double x){
 		String s = graphs[graph].getFormula().replaceAll("x", Double.toString(x));
 		double ans = Calculator.evaluateExpression(getVariableManager(), s);
 		return ans;
 	}
-	
+
 	public int isXInGraphRange(double x){
 		return x < getGraphMinX() ? 2 : x > getGraphMaxX() ? 1 : 0;
 	}
-	
+
 	public void setFunctionPanelRenderer(int graph, IFunctionRenderer renderer){
 		currentFunctionDrawn = graph;
 		graphFunctionPanel.setFunctionRenderer(renderer);
 		graphFunctionPanel.updateUI();
 	}
-	
+
 	public void clearFunctionPanel(){
 		currentFunctionDrawn = -1;
 		graphFunctionPanel.clearDraw();
 		graphFunctionPanel.updateUI();
 	}
-	
+
 	public double calculateDelta(int graph, double x0, double x1){
 		double ansX0 = calculateGraphPoint(graph, x0);
 		double ansX1 = calculateGraphPoint(graph, x1);
