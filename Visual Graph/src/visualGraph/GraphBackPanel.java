@@ -19,8 +19,6 @@ public class GraphBackPanel extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 
-		System.out.println("Drawing lines");
-
 		Graphics2D graphics = (Graphics2D)g;
 		graphics.translate(0, getHeight());
 		graphics.scale(1, -1);
@@ -62,7 +60,7 @@ public class GraphBackPanel extends JPanel{
 			Line2D line = createLine(0.0D, stepY, 1.0D, stepY);
 			graphics.draw(line);
 		}
-		
+
 		stepAmount = vg.getGraphWidth() / vg.getGraphStepX();
 		stepSize = 1.0D / (double)stepAmount;
 		numberOfMinSteps = (vg.getGraphMinX() < 0.0D) ? (int) (Math.abs(vg.getGraphMinX()) / vg.getGraphStepX()) : 0;
@@ -72,7 +70,7 @@ public class GraphBackPanel extends JPanel{
 			graphics.draw(line);
 		}
 
-		graphics.setColor(Color.BLACK);
+		graphics.setColor(Color.DARK_GRAY);
 
 		Line2D horLine = new Line2D.Double(0.0D, y * (double) this.getHeight(), this.getWidth(), y * (double) this.getHeight());
 		Line2D verLine = new Line2D.Double(x * (double) this.getWidth(), 0.0D, x * (double) this.getWidth(), this.getHeight());

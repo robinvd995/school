@@ -32,17 +32,12 @@ public class GraphPanel extends JPanel{
 			int iterations = (int)((double)getWidth() * graph.getAccuracy());
 			double incrementation = 1.0D / (double)iterations;
 
-			System.out.println(iterations + ", " + incrementation);
-
 			graphics.setColor(graph.getColor());
 
 			double lastAwnser;
 			String s0 = Double.toString(minX);
-			System.out.println(s0);
 			String s = graph.getFormula().replaceAll("x", s0);
 			lastAwnser = Calculator.evaluateExpression(vg.getVariableManager(), s);
-
-			System.out.println(incrementation);
 
 			double amplitude = getHeight() / vg.getGraphHeight();
 			double translation = amplitude * (-1.0D * vg.getGraphMinY());

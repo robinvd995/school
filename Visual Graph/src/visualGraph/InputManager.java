@@ -15,19 +15,10 @@ public class InputManager implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String[] args = e.getActionCommand().split(" ");
 		
-		System.out.println("Action Performed");
 		if(args.length != 2)
 			return;
-		System.out.println("x == 2");
 		
 		int line = Integer.parseInt(args[1]);
-		/*if(args[0].equals("draw")){
-			System.out.println("draw");
-			vg.drawLine(line);
-		}
-		else if(args[0].equals("clear")){
-			vg.clearLine(line);
-		}*/
 		
 		switch(args[0]){
 		case "draw":
@@ -40,6 +31,10 @@ public class InputManager implements ActionListener{
 			
 		case "settings":
 			vg.openGraphSettingsMenu(line);
+			break;
+			
+		case "function":
+			vg.openFunctionWindow(line);
 			break;
 		}
 	}

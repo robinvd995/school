@@ -2,6 +2,10 @@ package visualGraph;
 
 public class GraphBounds {
 
+	public static final double[] DEFAULT_VALUES = {
+			-10.0D, 10.0D, -10.0D, 10.0D, 1.0D, 1.0D
+	};
+	
 	private double minX;
 	private double maxX;
 	private double minY;
@@ -15,7 +19,7 @@ public class GraphBounds {
 	}
 	
 	public void setDefault(){
-		setBounds(-10.0D, 10.0D, -10.0D, 10.0D, 1.0D, 1.0D);
+		setBounds(DEFAULT_VALUES[0], DEFAULT_VALUES[1], DEFAULT_VALUES[2], DEFAULT_VALUES[3], DEFAULT_VALUES[4], DEFAULT_VALUES[5]);
 	}
 	
 	public double getMinX(){

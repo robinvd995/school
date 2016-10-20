@@ -16,7 +16,7 @@ public class OptionsManager implements ActionListener{
 	};
 	
 	private static final int OPTIONS_WIDTH = 188;
-	private static final int OPTIONS_HEIGHT = 256;
+	private static final int OPTIONS_HEIGHT = 278;
 	
 	private VisualGraph vg;
 	
@@ -31,7 +31,7 @@ public class OptionsManager implements ActionListener{
 	public void initOptionsWindow(){
 		window = new JDialog(vg.getFrame(), true);
 		window.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		window.setTitle("Options");
+		window.setTitle("Graph Bounds");
 		window.setResizable(false);
 		window.setLayout(null);
 		Rectangle rect = vg.getFrame().getBounds();
@@ -101,12 +101,25 @@ public class OptionsManager implements ActionListener{
 		apply.setActionCommand("apply");
 		window.add(apply);
 		
+		JButton defaults = new JButton("Defaults");
+		defaults.setLocation(20, 62 + textField.length * 20);
+		defaults.setSize(140, 20);
+		defaults.addActionListener(this);
+		defaults.setActionCommand("defaults");
+		window.add(defaults);
+		
 		JButton cancel = new JButton("Cancel");
-		cancel.setLocation(20, 62 + textField.length * 20);
+		cancel.setLocation(20, 84 + textField.length * 20);
 		cancel.setSize(140, 20);
 		cancel.addActionListener(this);
 		cancel.setActionCommand("cancel");
 		window.add(cancel);
+	}
+	
+	private void setToDefaults(){
+		for(int i = 0; i < textField.length; i++){
+			textField[i].setText(Double.toString(GraphBounds.DEFAULT_VALUES[i]));
+		}
 	}
 	
 	public void openOptionsWindow(){
@@ -134,9 +147,11 @@ public class OptionsManager implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		//System.out.println(evt.getActionCommand());
 		if(evt.getActionCommand().equals("cancel")){
 			closeOptionsWindow();	
+		}
+		else if(evt.getActionCommand().equals("defaults")){
+			setToDefaults();
 		}
 		else if(evt.getActionCommand().equals("apply")){
 			boolean error = false;
