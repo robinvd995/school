@@ -14,6 +14,8 @@ public class Graph{
 	private double accuracy;
 	private int lineWidth = 1;
 	
+	private Point[] points;
+	
 	public Graph(String n, Color c, double a){
 		name = n;
 		color = c;
@@ -62,5 +64,21 @@ public class Graph{
 	
 	public void setAccuracy(double a){
 		accuracy = a;
+	}
+	
+	public void setNewPointArray(int size){
+		points = new Point[size];
+	}
+	
+	public void setPointValue(int index, double x, double y){
+		points[index] = new Point(x, y);
+	}
+	
+	public Point getPointValue(int index){
+		return points[index];
+	}
+	
+	public int getPointListSize(){
+		return points.length;
 	}
 }

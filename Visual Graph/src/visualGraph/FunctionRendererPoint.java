@@ -5,15 +5,22 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 public class FunctionRendererPoint implements IFunctionRenderer{
-
-	private static final int CROSS_SIZE = 10;
 	
+	private String message;
 	private double posX;
 	private double posY;
 	
-	public FunctionRendererPoint(double x, double y){
+	private int crossSize = 10;
+	
+	public FunctionRendererPoint(String msg, double x, double y){
+		message = msg;
 		posX = x;
 		posY = y;
+	}
+	
+	public FunctionRendererPoint setCrossSize(int size){
+		crossSize = size;
+		return this;
 	}
 	
 	@Override
@@ -24,10 +31,9 @@ public class FunctionRendererPoint implements IFunctionRenderer{
 		double x = translationX + posX * amplitudeX;
 		double y = translationY + posY * amplitudeY;
 		
-		graphics.draw(createLine(x - CROSS_SIZE, y - CROSS_SIZE, x + CROSS_SIZE, y + CROSS_SIZE));
-		graphics.draw(createLine(x - CROSS_SIZE, y + CROSS_SIZE, x + CROSS_SIZE, y - CROSS_SIZE));
+		graphics.draw(createLine(x - crossSize, y - crossSize, x + crossSize, y + crossSize));
+		graphics.draw(createLine(x - crossSize, y + crossSize, x + crossSize, y - crossSize));
 		
-		String message = "x = " + posX + ", y = " + posY;
 		double textPosX = x + 20;
 		double textPosY = y - graphics.getFontMetrics().getHeight() / 2 + 3;
 		if(x > screenWidth / 2){

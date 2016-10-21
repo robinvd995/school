@@ -34,11 +34,14 @@ public class GraphPanel extends JPanel{
 
 			graphics.setColor(graph.getColor());
 
+			graph.setNewPointArray(iterations + 1);
+			
 			double lastAwnser;
 			String s0 = Double.toString(minX);
 			String s = graph.getFormula().replaceAll("x", s0);
 			lastAwnser = Calculator.evaluateExpression(vg.getVariableManager(), s);
-
+			graph.setPointValue(0, minX, lastAwnser);
+			
 			double amplitude = getHeight() / vg.getGraphHeight();
 			double translation = amplitude * (-1.0D * vg.getGraphMinY());
 
@@ -46,7 +49,8 @@ public class GraphPanel extends JPanel{
 				double d = minX + i * incrementation * vg.getGraphWidth();
 				s = graph.getFormula().replaceAll("x", Double.toString(d));
 				double awnser = Calculator.evaluateExpression(vg.getVariableManager(), s);
-
+				graph.setPointValue(i, d, awnser);
+				
 				double x0 = (i - 1) * incrementation * getWidth();
 				double x1 = i * incrementation * getWidth();
 				double y0 = translation + lastAwnser * amplitude;

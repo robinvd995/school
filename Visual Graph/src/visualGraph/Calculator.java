@@ -1,5 +1,7 @@
 package visualGraph;
 
+import java.awt.geom.Line2D;
+
 public class Calculator {
 
 	private static final double evaluateFormattedExpression(final String str){
@@ -105,5 +107,19 @@ public class Calculator {
 	public static final double evaluateExpression(VariableManager vm, final String str) throws RuntimeException{
 		String s = formatExpression(vm, str);
 		return evaluateFormattedExpression(s);
+	}
+	
+	public static final Point intersectLines(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3){
+		if(!Line2D.linesIntersect(x0, y0, x1, y1, x2, y2, x3, y3)){
+			return null;
+		}
+		
+		double d = (x0 - x1) * (y2 - y3) - (y0 - y1) * (x2 - x3);
+		if(d == 0) return null;
+		
+		double x = ((x2 - x3) * (x0 * y1 - y0 * x1) - (x0 - x1) * (x2 * y3 - y2 * x3)) / d;
+		double y = ((y2 - y3) * (x0 * y1 - y0 * x1) - (y0 - y1) * (x2 * y3 - y2 * x3)) / d;
+		
+		return new Point(x, y);
 	}
 }

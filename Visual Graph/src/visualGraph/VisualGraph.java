@@ -58,7 +58,7 @@ public class VisualGraph implements Runnable{
 	private static final int MAIN_WIDTH = 1200;
 	private static final int MAIN_HEIGHT = 900;
 
-	private static final String MAIN_VERSION = "0.1.1";
+	private static final String MAIN_VERSION = "0.2.1";
 
 	private static final int MAX_GRAPHS = 6;
 	private static final Color[] STANDARD_GRAPH_COLORS = {
@@ -300,6 +300,10 @@ public class VisualGraph implements Runnable{
 	public void log(String text){
 		logArea.append("[" + getTime() + "]: " + text + "\n");
 	}
+	
+	private void clearLog(){
+		logArea.setText(null);
+	}
 
 	private String getTime(){
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -339,7 +343,8 @@ public class VisualGraph implements Runnable{
 		String[] options = {"New", "Cancel"};
 		if(showOptionPane("New", "Are you sure you want to start a new Graph?", options) == 0){
 			graphBounds.setDefault();
-
+			clearLog();
+			
 			for(int i = 0; i < MAX_GRAPHS; i++){
 				setGraphName(i, STANDARD_GRAPH_NAME + i);
 				setGraphFormula(i, "", false);
@@ -383,12 +388,22 @@ public class VisualGraph implements Runnable{
 	}
 
 	public void drawLine(int line){
-		log("Drawing line: " + graphs[line].getName());
 		String formula = textField[line].getText();
-		setGraphFormula(line, formula, true);
+		if(!formula.isEmpty()){
+			log("Drawing line: " + graphs[line].getName());
+			setGraphFormula(line, formula, true);
+		}
+		else{
+			log("No formula found for " + graphs[line].getName() + "!");
+		}
 	}
 
 	public void clearLine(int line){
+		if(!isActiveGraph(line)){
+			log("Nothing to clear for " + graphs[line].getName() + "!");
+			return;
+		}
+		
 		if(line == currentFunctionDrawn){
 			clearFunctionPanel();
 		}else{
@@ -495,6 +510,10 @@ public class VisualGraph implements Runnable{
 
 	public void readXML(File file){
 		try {
+			
+			clearFunctionPanel();
+			clearLog();
+			
 			//File file = new File("file.xml");
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = dbf.newDocumentBuilder();
@@ -642,5 +661,37 @@ public class VisualGraph implements Runnable{
 		double ansX0 = calculateGraphPoint(graph, x0);
 		double ansX1 = calculateGraphPoint(graph, x1);
 		return ansX1 - ansX0;
+	}
+	
+	public int[] getOtherActiveGraphs(int self){
+		List<Integer> list = new ArrayList<Integer>();
+		int i;
+		for(i = 0; i < MAX_GRAPHS; i++){
+			
+			if(i == self)
+				continue;
+			
+			if(isActiveGraph(i)){
+				list.add(i);
+			}
+		}
+		
+		int[] activeGraphs = new int[list.size()];
+		for(i = 0; i < list.size(); i++){
+			activeGraphs[i] = list.get(i);
+		}
+		return activeGraphs;
+	}
+	
+	public int getGraphPointListSize(int graph){
+		return graphs[graph].getPointListSize();
+	}
+	
+	public Point getPointValue(int graph, int index){
+		return graphs[graph].getPointValue(index);
+	}
+	
+	public boolean isActiveGraph(int line){
+		return graphs[line].hasFormula();
 	}
 }

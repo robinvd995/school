@@ -45,10 +45,8 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 			switch(result){
 			case 0:
 				double ans = vg.calculateGraphPoint(line, x);
-				String message = getMessage(line, x, ans);
-				vg.log(message);
-				vg.setFunctionPanelRenderer(line, new FunctionRendererPoint(x, ans));
-				//vg.setGraphFunctionPanelDrawParameters(line, message, x, ans);
+				vg.log(getLogMessage(line, x, ans));
+				vg.setFunctionPanelRenderer(line, new FunctionRendererPoint("x = " + x + ", y = " + ans, x, ans).setCrossSize(5));
 				break;
 			case 1:
 				vg.log("Error, x > graph max x");
@@ -64,7 +62,7 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 		}
 	}
 
-	private String getMessage(int line, double x, double y){
+	private String getLogMessage(int line, double x, double y){
 		return vg.getGraphName(line) + ": for x = " + x + ", y = " + y;
 	}
 	

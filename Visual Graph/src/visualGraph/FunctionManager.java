@@ -84,6 +84,8 @@ public class FunctionManager implements ActionListener{
 	public void openFunctionWindow(int graph){
 		currentGraph = graph;
 		window.setVisible(true);
+		setActiveFunctionPanel(0, false);
+		functionComboBox.setSelectedIndex(0);
 	}
 	
 	public void closeFunctionWindow(){
