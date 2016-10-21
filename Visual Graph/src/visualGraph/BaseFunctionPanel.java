@@ -34,7 +34,7 @@ public abstract class BaseFunctionPanel {
 	
 	protected abstract void init();
 	public abstract void onOpen(int line);
-	public abstract void execute(int line);
+	public abstract void execute(VariableManager vm, int line);
 	
 	public abstract int getHeight();
 }

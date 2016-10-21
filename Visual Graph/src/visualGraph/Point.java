@@ -19,6 +19,6 @@ public class Point {
 	}
 	
 	public String toString(){
-		return posX + "," + posY;
+		return Utils.toStringAndCutDouble(posX, 4) + "," + Utils.toStringAndCutDouble(posY, 4);
 	}
 }

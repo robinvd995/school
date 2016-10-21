@@ -42,10 +42,10 @@ public class FunctionPanelDelta extends BaseFunctionPanel{
 	}
 
 	@Override
-	public void execute(int line) {
+	public void execute(VariableManager vm, int line) {
 		double[] values = new double[inputField.length];
 		for(int i = 0; i < values.length; i++){
-			String s = inputField[i].getText();
+			String s = vm.replaceVariables(inputField[i].getText());
 			if(s.isEmpty()){
 				vg.log("No number entered!");
 				return;
@@ -72,8 +72,13 @@ public class FunctionPanelDelta extends BaseFunctionPanel{
 		
 		double y0 = vg.calculateGraphPoint(line, values[0]);
 		double y1 = vg.calculateGraphPoint(line, values[1]);
+		String sx0 = Utils.toStringAndCutDouble(values[0], 4);
+		String sx1 = Utils.toStringAndCutDouble(values[1], 4);
+		String sy0 = Utils.toStringAndCutDouble(y0, 4);
+		String sy1 = Utils.toStringAndCutDouble(y1, 4);
+		String ans = Utils.toStringAndCutDouble((y1 - y0) / (values[1] - values[0]), 4);
 		vg.setFunctionPanelRenderer(line, new FunctionRendererDelta(values[0], y0, values[1], y1));
-		vg.log(vg.getGraphName(line) + ": Delta between (" + values[0] + "," + y0 + ") and (" + values[1] + ", " + y1 + ") = " + ((y1 - y0) / (values[1] - values[0])));
+		vg.log(vg.getGraphName(line) + ": Delta between (" + sx0 + "," + sy0 + ") and (" + sx1 + ", " + sy1 + ") = " + ans);
 	}
 
 	@Override

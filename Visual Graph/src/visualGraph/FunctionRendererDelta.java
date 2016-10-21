@@ -40,7 +40,7 @@ public class FunctionRendererDelta implements IFunctionRenderer{
 		
 		graphics.draw(createLine(x0, y0, x1,y1));
 		
-		String message = "DeltaY = " + ((posY1 - posY0) / (posX1 - posX0));
+		String message = "DeltaY = " + Utils.toStringAndCutDouble((posY1 - posY0) / (posX1 - posX0), 4);
 		
 		double x = x0 + (x1 - x0) / 2;
 		double y = y0 + (y1 - y0) / 2;

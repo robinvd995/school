@@ -27,6 +27,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -58,7 +60,7 @@ public class VisualGraph implements Runnable{
 	private static final int MAIN_WIDTH = 1200;
 	private static final int MAIN_HEIGHT = 900;
 
-	private static final String MAIN_VERSION = "0.2.1";
+	private static final String MAIN_VERSION = "0.2.2";
 
 	private static final int MAX_GRAPHS = 6;
 	private static final Color[] STANDARD_GRAPH_COLORS = {
@@ -84,7 +86,10 @@ public class VisualGraph implements Runnable{
 	private GraphFunctionPanel graphFunctionPanel;
 
 	private JLabel[] graphNameLabels;
-
+	private JButton[] functionButtons;
+	private JButton[] drawButtons;
+	private JButton[] clearButtons;
+	
 	private GraphPanel[] graphPanels;
 
 	private JTextField[] textField;
@@ -191,6 +196,9 @@ public class VisualGraph implements Runnable{
 		graphs = new Graph[MAX_GRAPHS];
 		graphPanels = new GraphPanel[MAX_GRAPHS];
 		graphNameLabels = new JLabel[MAX_GRAPHS];
+		functionButtons = new JButton[MAX_GRAPHS];
+		drawButtons = new JButton[MAX_GRAPHS];
+		clearButtons = new JButton[MAX_GRAPHS];
 
 		graphFunctionPanel = new GraphFunctionPanel(this);
 		graphFunctionPanel.setLocation(0,0);
@@ -215,50 +223,47 @@ public class VisualGraph implements Runnable{
 			graphNameLabels[i] = new JLabel(graphs[i].getName() + ":");
 			graphNameLabels[i].setLocation(20, 30 + i * spaceBetween);
 			graphNameLabels[i].setSize(300, 20);
-			//labelGraphName.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY));
 			inputPanel.add(graphNameLabels[i]);
 
-			/*JLabel labelY0 = new JLabel("y" + i + ":");
-			labelY0.setLocation(10, 50 + i * spaceBetween);
-			labelY0.setSize(40, 24);
-			inputPanel.add(labelY0);*/
-
+			TextFieldListener listener = new TextFieldListener(this, i);
 			textField[i] = new JTextField();
 			textField[i].setLocation(10, 50 + i * spaceBetween);
 			textField[i].setSize(281, 25);
+			textField[i].getDocument().addDocumentListener(listener);
+			textField[i].addFocusListener(listener);
 			inputPanel.add(textField[i]);
 
-			/*JButton buttonDraw = new JButton("d");
-			buttonDraw.setLocation(282, 30 + i * spaceBetween);
-			buttonDraw.setSize(48, 24);
-			buttonDraw.setActionCommand("draw " + i);
-			buttonDraw.addActionListener(inputManager);
-			inputPanel.add(buttonDraw);*/
+			clearButtons[i] = new JButton("Clear");
+			clearButtons[i].setLocation(294, 50 + i * spaceBetween);
+			clearButtons[i].setSize(80, 56);
+			//clearButtons[i].setLocation(198, 76 + i * spaceBetween);
+			//clearButtons[i].setSize(92, 30);
+			clearButtons[i].setActionCommand("clear " + i);
+			clearButtons[i].addActionListener(inputManager);
+			clearButtons[i].setEnabled(true);
+			inputPanel.add(clearButtons[i]);
 
-			JButton buttonClear = new JButton("Clear");
-			buttonClear.setLocation(294, 50 + i * spaceBetween);
-			buttonClear.setSize(80, 56);
-			buttonClear.setActionCommand("clear " + i);
-			buttonClear.addActionListener(inputManager);
-			inputPanel.add(buttonClear);
+			drawButtons[i] = new JButton("Draw");
+			drawButtons[i].setLocation(10, 76 + i * spaceBetween);
+			drawButtons[i].setSize(92, 30);
+			drawButtons[i].setActionCommand("draw " + i);
+			drawButtons[i].addActionListener(inputManager);
+			drawButtons[i].setEnabled(true);
+			inputPanel.add(drawButtons[i]);
 
-			JButton buttonDraw = new JButton("Draw");
-			buttonDraw.setLocation(10, 76 + i * spaceBetween);
-			buttonDraw.setSize(92, 30);
-			buttonDraw.setActionCommand("draw " + i);
-			buttonDraw.addActionListener(inputManager);
-			inputPanel.add(buttonDraw);
-
-			JButton buttonFunctions = new JButton("Function");
-			buttonFunctions.setLocation(104, 76 + i * spaceBetween);
-			buttonFunctions.setSize(92, 30);
-			buttonFunctions.setActionCommand("function " + i);
-			buttonFunctions.addActionListener(inputManager);
-			inputPanel.add(buttonFunctions);
+			functionButtons[i] = new JButton("Function");
+			functionButtons[i].setLocation(104, 76 + i * spaceBetween);
+			functionButtons[i].setSize(92, 30);
+			functionButtons[i].setActionCommand("function " + i);
+			functionButtons[i].setEnabled(false);
+			functionButtons[i].addActionListener(inputManager);
+			inputPanel.add(functionButtons[i]);
 
 			JButton buttonSettings = new JButton("Settings");
 			buttonSettings.setLocation(198, 76 + i * spaceBetween);
 			buttonSettings.setSize(92, 30);
+			//buttonSettings.setLocation(294, 50 + i * spaceBetween);
+			//buttonSettings.setSize(80, 56);
 			buttonSettings.setActionCommand("settings " + i);
 			buttonSettings.addActionListener(inputManager);
 			inputPanel.add(buttonSettings);
@@ -462,6 +467,14 @@ public class VisualGraph implements Runnable{
 
 	public void setGraphFormula(int graph, String formula, boolean update){	
 		graphs[graph].setFormula(formula);
+		
+		if(formula.isEmpty()){
+			functionButtons[graph].setEnabled(false);
+		}
+		else{
+			functionButtons[graph].setEnabled(true);
+		}
+		
 		if(update){
 			if(graph == currentFunctionDrawn){
 				clearFunctionPanel();
@@ -693,5 +706,20 @@ public class VisualGraph implements Runnable{
 	
 	public boolean isActiveGraph(int line){
 		return graphs[line].hasFormula();
+	}
+	
+	public void onTextFieldChanged(int graph){
+		/*if(textField[graph].getText().isEmpty()){
+			clearButtons[graph].setEnabled(false);
+			drawButtons[graph].setEnabled(false);
+		}
+		else{
+			clearButtons[graph].setEnabled(true);
+			drawButtons[graph].setEnabled(true);
+		}*/
+	}
+	
+	public void onTextfieldFocusLost(int graph){
+		//textField[graph].setText(graphs[graph].getFormula());
 	}
 }

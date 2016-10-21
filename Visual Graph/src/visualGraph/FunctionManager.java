@@ -110,7 +110,7 @@ public class FunctionManager implements ActionListener{
 			setActiveFunctionPanel(func.ordinal(), false);
 		}
 		else if(evt.getActionCommand().equals("execute")){
-			panels[activeFunctionPanel].execute(currentGraph);
+			panels[activeFunctionPanel].execute(vg.getVariableManager(), currentGraph);
 			closeFunctionWindow();
 		}
 	}

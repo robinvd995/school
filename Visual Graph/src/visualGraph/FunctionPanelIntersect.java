@@ -49,7 +49,7 @@ public class FunctionPanelIntersect extends BaseFunctionPanel{
 	}
 
 	@Override
-	public void execute(int line) {
+	public void execute(VariableManager vm, int line) {
 
 		GraphEntry selected = (GraphEntry) comboBox.getSelectedItem();		
 		if(!selected.isValid()){

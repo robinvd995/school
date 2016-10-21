@@ -30,8 +30,8 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 	}
 
 	@Override
-	public void execute(int line) {
-		String s = inputField.getText();
+	public void execute(VariableManager vm, int line) {
+		String s = vm.replaceVariables(inputField.getText());
 		
 		if(s.isEmpty()){
 			vg.log("No number entered!");
@@ -46,7 +46,7 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 			case 0:
 				double ans = vg.calculateGraphPoint(line, x);
 				vg.log(getLogMessage(line, x, ans));
-				vg.setFunctionPanelRenderer(line, new FunctionRendererPoint("x = " + x + ", y = " + ans, x, ans).setCrossSize(5));
+				vg.setFunctionPanelRenderer(line, new FunctionRendererPoint("x = " + Utils.toStringAndCutDouble(x, 4) + ", y = " + Utils.toStringAndCutDouble(ans, 4), x, ans).setCrossSize(5));
 				break;
 			case 1:
 				vg.log("Error, x > graph max x");
@@ -63,7 +63,7 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 	}
 
 	private String getLogMessage(int line, double x, double y){
-		return vg.getGraphName(line) + ": for x = " + x + ", y = " + y;
+		return vg.getGraphName(line) + ": for x = " + Utils.toStringAndCutDouble(x, 4) + ", y = " + Utils.toStringAndCutDouble(y, 4);
 	}
 	
 	@Override
