@@ -21,6 +21,8 @@ public class FunctionPanelValue extends BaseFunctionPanel{
 		inputField = new JTextField();
 		inputField.setSize(200, 25);
 		inputField.setLocation(43, 10);
+		//inputField.addActionListener(manager);
+		//inputField.setActionCommand("execute");
 		panel.add(inputField);
 	}
 	

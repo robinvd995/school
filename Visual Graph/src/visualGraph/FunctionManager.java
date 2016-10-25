@@ -59,6 +59,8 @@ public class FunctionManager implements ActionListener{
 		executeButton.setActionCommand("execute");
 		window.add(executeButton);
 		
+		window.getRootPane().setDefaultButton(executeButton);
+		
 		setActiveFunctionPanel(0, true);
 	}
 

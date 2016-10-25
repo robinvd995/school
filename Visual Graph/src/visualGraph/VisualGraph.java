@@ -60,7 +60,7 @@ public class VisualGraph implements Runnable{
 	private static final int MAIN_WIDTH = 1200;
 	private static final int MAIN_HEIGHT = 900;
 
-	private static final String MAIN_VERSION = "0.2.2";
+	private static final String MAIN_VERSION = "0.2.3";
 
 	private static final int MAX_GRAPHS = 6;
 	private static final Color[] STANDARD_GRAPH_COLORS = {
@@ -225,12 +225,11 @@ public class VisualGraph implements Runnable{
 			graphNameLabels[i].setSize(300, 20);
 			inputPanel.add(graphNameLabels[i]);
 
-			TextFieldListener listener = new TextFieldListener(this, i);
 			textField[i] = new JTextField();
 			textField[i].setLocation(10, 50 + i * spaceBetween);
 			textField[i].setSize(281, 25);
-			textField[i].getDocument().addDocumentListener(listener);
-			textField[i].addFocusListener(listener);
+			textField[i].addActionListener(inputManager);
+			textField[i].setActionCommand("draw " + i);
 			inputPanel.add(textField[i]);
 
 			clearButtons[i] = new JButton("Clear");
@@ -241,6 +240,7 @@ public class VisualGraph implements Runnable{
 			clearButtons[i].setActionCommand("clear " + i);
 			clearButtons[i].addActionListener(inputManager);
 			clearButtons[i].setEnabled(true);
+			clearButtons[i].setFocusable(false);
 			inputPanel.add(clearButtons[i]);
 
 			drawButtons[i] = new JButton("Draw");
@@ -249,6 +249,7 @@ public class VisualGraph implements Runnable{
 			drawButtons[i].setActionCommand("draw " + i);
 			drawButtons[i].addActionListener(inputManager);
 			drawButtons[i].setEnabled(true);
+			drawButtons[i].setFocusable(false);
 			inputPanel.add(drawButtons[i]);
 
 			functionButtons[i] = new JButton("Function");
@@ -257,15 +258,15 @@ public class VisualGraph implements Runnable{
 			functionButtons[i].setActionCommand("function " + i);
 			functionButtons[i].setEnabled(false);
 			functionButtons[i].addActionListener(inputManager);
+			functionButtons[i].setFocusable(false);
 			inputPanel.add(functionButtons[i]);
 
 			JButton buttonSettings = new JButton("Settings");
 			buttonSettings.setLocation(198, 76 + i * spaceBetween);
 			buttonSettings.setSize(92, 30);
-			//buttonSettings.setLocation(294, 50 + i * spaceBetween);
-			//buttonSettings.setSize(80, 56);
 			buttonSettings.setActionCommand("settings " + i);
 			buttonSettings.addActionListener(inputManager);
+			buttonSettings.setFocusable(false);
 			inputPanel.add(buttonSettings);
 		}
 
@@ -347,6 +348,7 @@ public class VisualGraph implements Runnable{
 	private void newFile(){
 		String[] options = {"New", "Cancel"};
 		if(showOptionPane("New", "Are you sure you want to start a new Graph?", options) == 0){
+			clearFunctionPanel();
 			graphBounds.setDefault();
 			clearLog();
 			
@@ -706,20 +708,5 @@ public class VisualGraph implements Runnable{
 	
 	public boolean isActiveGraph(int line){
 		return graphs[line].hasFormula();
-	}
-	
-	public void onTextFieldChanged(int graph){
-		/*if(textField[graph].getText().isEmpty()){
-			clearButtons[graph].setEnabled(false);
-			drawButtons[graph].setEnabled(false);
-		}
-		else{
-			clearButtons[graph].setEnabled(true);
-			drawButtons[graph].setEnabled(true);
-		}*/
-	}
-	
-	public void onTextfieldFocusLost(int graph){
-		//textField[graph].setText(graphs[graph].getFormula());
 	}
 }

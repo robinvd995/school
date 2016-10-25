@@ -27,6 +27,8 @@ public class FunctionPanelIntersect extends BaseFunctionPanel{
 		comboBox = new JComboBox<GraphEntry>();
 		comboBox.setSize(200, 24);
 		comboBox.setLocation(43, 10);
+		//comboBox.addActionListener(manager);
+		//comboBox.setActionCommand("execute");
 		panel.add(comboBox);
 		
 	}

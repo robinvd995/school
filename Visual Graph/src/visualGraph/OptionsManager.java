@@ -50,6 +50,8 @@ public class OptionsManager implements ActionListener{
 			textField[i] = new JTextField(Double.toString(getGraphValue(i)));
 			textField[i].setLocation(80, 20 + 20 * i);
 			textField[i].setSize(80, 20);
+			textField[i].addActionListener(this);
+			textField[i].setActionCommand("apply");
 			window.add(textField[i]);
 			
 		}
@@ -99,6 +101,7 @@ public class OptionsManager implements ActionListener{
 		apply.setSize(140, 20);
 		apply.addActionListener(this);
 		apply.setActionCommand("apply");
+		apply.setFocusable(false);
 		window.add(apply);
 		
 		JButton defaults = new JButton("Defaults");
@@ -106,6 +109,7 @@ public class OptionsManager implements ActionListener{
 		defaults.setSize(140, 20);
 		defaults.addActionListener(this);
 		defaults.setActionCommand("defaults");
+		defaults.setFocusable(false);
 		window.add(defaults);
 		
 		JButton cancel = new JButton("Cancel");
@@ -113,6 +117,7 @@ public class OptionsManager implements ActionListener{
 		cancel.setSize(140, 20);
 		cancel.addActionListener(this);
 		cancel.setActionCommand("cancel");
+		cancel.setFocusable(false);
 		window.add(cancel);
 	}
 	

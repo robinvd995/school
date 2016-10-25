@@ -14,7 +14,7 @@ public class InputManager implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String[] args = e.getActionCommand().split(" ");
-
+		
 		if(args.length != 2)
 			return;
 
